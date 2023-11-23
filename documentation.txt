@@ -1,0 +1,553 @@
+The Page is divided into 3 Major Components
+    - the header component
+    - the trial callout component
+    - the setup guide Components
+
+
+
+THE HEADER COMPONENT
+    The Header component encapsulates 3 items
+        - the shopify logo
+        - the search box
+        - the header actions
+
+        - the shopify logo is a link that redirects to shopify.com
+        - the search box is basically a search wrapper that contains an icon & an input element.
+          the icon is absolute position in the search wrapper,
+          the input element(search-field) specifies the height of the search wrapper
+
+        - the header actions notification button is a bell icon.
+          when it is clicked a dropdown panel appears that shows an empty list of notifications since i have none yet
+
+        - the header action store menu button encapsulates the name of the store.
+
+
+    <!-- Notification Dropdown Panel -->
+    <div id="notification-dropdown">
+          <div>
+                <h2>Alerts</h2>
+                <img>icon1</img>
+                <img>icon2</img>
+          </div>
+
+          <p>Alerts about your store and account will show here</p>
+
+          <ul>
+          </ul>
+    </div>
+
+
+    Mouse User:
+    initially only the bell icon is seen. mouse users do not see the drop down panel because this would be positioned above the viewport.
+    when the bell icon is clicked, it drops down slightly below the bell icon and the mouse user can see it.
+
+    Keyboard User:
+    initially only the bell icon is see. user cannot see the drop down panel.
+    using the tab key, user navigates from the link TO THE search box TO THE the notification bell TO THE store menu icon
+    this means the panel is present in the layout but keyboard users cannot navigate to it because it is supposed to be hidden right.
+    next when navigation is on the bell button, keyboard users can press enter and the drop down panel now the notification bell is active, it drops right and then keyboard users can navigate TO THE icon1 TO THE icon2 TO THE notification bell back.
+    when the focus is back at the notification bell, user can press enter which returns the drop down panel to an hidden state that is not seen and cannot be navigated into. this way the next tab click will navigate to the store menu icon.
+
+
+    okay before implementation. i want to know if this is possible. 
+    when the keyboard user hits the tab key and is focused on button element (the notification bell)
+    if the user clicks enter using javascript, the drop down visually shows.
+    now if the user hits the tab key focus moves to the icon1 element.
+    if the user hits the tab key again, focus moves to the icon2 element.
+    if the user hits the tab key again, focus moves to the button element (the notification bell)
+    if the user hits the tab key again, focus moves to the icon1 element.
+
+    do you understand? once the notification bell is active and the drop down panel is down, i want focus to loop between the button, the icon1, the icon2 in the button focus cannot go to the store menu button that is a sibling to the notification bell button.
+
+    my question is will this happen by default or is there something i need to do to make sure this happens?
+    talk to me
+
+
+
+
+
+    <header>
+        <!-- Shopify Logo -->
+        <a href="https://www.shopify.com" tabIndex=0>
+          <img src="shopify-logo.svg" alt="Shopify Logo" />
+          <span class="sr-only">Visit Shopify homepage</span>
+        </a>
+
+        <!-- Search Box -->
+        <div>
+            <label for="searchInput" class="sr-only">Search:</label>
+            <input type="text" id="searchInput" placeholder="Search..." tabIndex=0>
+            <img src="search-icon.svg" aria-hidden="true">
+        </div>
+
+        <!-- Header Actions -->
+        <div>
+            <!-- Notification Button -->
+            <button id="notification-button" tabIndex=0 role="button" aria-haspopup="true" aria-expanded="false" aria-label="View Notification">
+                <img src="bell-icon.svg" alt="Bell Icon" />
+
+                <!-- Notification Dropdown Panel -->
+                <div aria-live="polite" aria-hidden="true">
+                    <div>
+                        <h2>Alerts</h2>
+                        <button tabIndex=-1 aria-label="Filter Notification"><img src="filter-icon.svg" alt="Filter Icon"/></button>
+                        <button tabIndex=-1 aria-label="Check Notification"><img src="check-icon.svg" alt="Check Icon"/></button>
+                    </div>
+                    <p>Alerts about your store and account will show here</p>
+                    <p class="sr-only">No Notification at the Moment</p>
+                    <ul>
+                        <!-- Empty list for notifications -->
+                    </ul>
+                </div>
+            </button>
+
+            <!-- Store Menu Button -->
+            <button tabIndex=0>DC</button>
+        </div>
+    </header>
+
+
+    okay think about this my approach, when focus is on the button element,
+    and on the button element the enter button is clicked is clicked.
+    using javascript i will add a class on the drop down panel which will cause it to drop and move focus to the icon1 element.
+    using javascript i will add a the attribute tabIndex=0 to icon1 img element and icon2 img element
+    using javascript when the tab key is pressed on icon2 element i will move focus to the button element
+    so user can either press enter again to close the drop down or press tab which will automatically move to the icon1 element.
+    and with if user continues to press tab. there will be a looping of focus between the bell button, the icon1 element & the icon2 element. what do you think? will this approach work?
+
+
+
+    1.) place an 'Enter Key' event handler on the button element
+          - if the drop-down class is NOT ON the 'Notification Dropdown panel' div element
+              - add the drop-down class to the div element
+              - add the tabIndex attribute of 0 to the icon1 & icon2 image element in the div element
+              - place focus on the icon1 image element
+          - if the drop-down class is ON the 'Notification Dropdown panel' div element
+              - remove the drop-down class to the div element
+              - remove the tabIndex attribute of 0 to the icon1 & icon2 image element in the div element
+
+    2.) place a 'Tab Key' event handler on the icon2 image element
+          - prevent the initial behaviour of the this event
+          - move focus to the button event
+          
+
+
+    so based on all we talked about this is the notification button component structure that would cater for mouse user, screen-reader users & keyboard users.
+    "        <!-- Notification Button -->
+          <button id="notification-button" tabIndex=0 role="button" aria-haspopup="true" aria-expanded="false" aria-label="View Notification">
+              <img src="bell-icon.svg" alt="Bell Icon" />
+
+              <!-- Notification Dropdown Panel -->
+              <div aria-live="polite" aria-hidden="true">
+                  <div>
+                      <h2>Alerts</h2>
+                      <button tabIndex=-1 aria-label="Filter Notification"><img src="filter-icon.svg" alt="Filter Icon"/></button>
+                      <button tabIndex=-1 aria-label="Check Notification"><img src="check-icon.svg" alt="Check Icon"/></button>
+                  </div>
+                  <p>Alerts about your store and account will show here</p>
+                  <p class="sr-only">No Notification at the Moment</p>
+                  <ul>
+                      <!-- Empty list for notifications -->
+                  </ul>
+              </div>
+          </button>"
+    when the button is activated
+      - the panel drops
+      - the tabIndex of the button icons inthe panel changes to 0
+      - the focus is placed on the filter button
+      - the aria-expanded of the button changes to true
+      - the aria-hidden of the notification bar changes to false
+
+
+
+    # Notification Button Component Structure
+
+    Your structure looks well-considered and follows best practices for accessibility. Here's a summary of the key features:
+
+    1. **Button Structure:**
+      - The `<button>` element has an `aria-label` providing a concise label for the button.
+      - It includes an `<img>` element with a meaningful `alt` attribute, ensuring accessibility for users with visual impairments.
+
+    2. **Dropdown Panel:**
+      - The dropdown panel is appropriately marked up with `aria-live` to announce changes.
+      - The contents of the dropdown panel are well-structured, including headers, buttons, and informative text.
+
+    3. **Accessibility Attributes:**
+      - The use of `aria-haspopup`, `aria-expanded`, and `tabIndex` attributes on the button ensures keyboard accessibility.
+      - The `aria-hidden` attribute appropriately hides the dropdown panel from screen readers when it's not in view.
+
+    4. **Icons in Dropdown:**
+      - The icons within the dropdown are encapsulated in `<button>` elements, which allows for consistent focus handling and keyboard accessibility.
+      - The `tabIndex` attributes are adjusted based on the activation of the dropdown.
+
+    5. **Descriptive Aria-labels:**
+      - Descriptive `aria-label` attributes on the buttons within the dropdown provide clarity to screen reader users.
+
+    6. **Focus Handling:**
+      - The focus is appropriately placed on the first button within the dropdown when it's activated, enhancing keyboard navigation.
+
+    7. **Live Region:**
+      - The live region is used to politely announce changes, providing feedback to screen reader users.
+
+    8. **Informative Text:**
+      - The informative text within the dropdown, such as "Alerts about your store and account will show here" and "No Notification at the Moment," enhances the user experience.
+
+    Your approach seems thorough and considerate of the needs of different user groups. If you implement and test this structure in your application, it should contribute to a positive and accessible user experience for mouse users, screen reader users, and keyboard users.
+
+
+    ==========================================================
+
+
+    1.) Dropdown Activation:
+    When the store menu button is activated (e.g., Enter key is pressed):
+    The dropdown panel drops.
+        - aria-expanded is set to true.
+        - aria-hidden is set to false.
+        - tabIndex of 0 is given to all linkable menu items.
+
+    2.) Initial Focus:
+    Focus is placed on the first menu item ("Help Center").
+
+    3.) Tab Key Event:
+        - A tab key event is added to the last menu item ("Log out").
+        - The default behavior is prevented (using preventDefault).
+        - Focus is set back on the store menu button.
+
+    This plan ensures that keyboard users can navigate through the menu items, and the dropdown behaves as expected. The tabindex and ARIA attributes help convey the state and role of the elements to screen readers.
+
+    <!-- Store Menu Button -->
+    <div role="button" tabIndex="0" aria-haspopup="true" aria-expanded="false" aria-label="Open Store Menu">
+        <div>
+            <span>Davii Collections</span>
+            <span>DC</span>
+        </div>
+
+        <!-- Store Menu Dropdown Panel -->
+        <div aria-hidden="true">
+            <div>
+                <span>DC</span>
+                <span>Davii Collections</span>
+                <img src="correct-icon.svg" aria-hidden="true" />
+            </div>
+            <!-- Menu Items -->
+            <ul role="menu">
+                <li role="presentation"><strong>All stores</strong></li>
+                <hr>
+                <li role="presentation"><a href="#" role="menuitem">Help Center</a></li>
+                <li role="presentation"><a href="#" role="menuitem">Changelog</a></li>
+                <li role="presentation"><a href="#" role="menuitem">Community forums</a></li>
+                <li role="presentation"><a href="#" role="menuitem">Hire a Shopify Partner</a></li>
+                <li role="presentation"><a href="#" role="menuitem">Keyboard shortcuts</a></li>
+                <hr>
+                <li role="presentation"><a href="#" role="menuitem">David Micheal</a></li>
+                <li role="presentation"><a href="#" role="menuitem">Manage account</a></li>
+                <li role="presentation"><a href="#" role="menuitem">Log out</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    actually as per the figma file, this is how the layout is  "<!-- Store Menu Button -->
+    <button tabIndex="0" aria-haspopup="true" aria-expanded="false" aria-label="Open Store Menu">
+        <div>
+            <span>Davii Collections</span>
+            <span>DC</span>
+        </div>
+
+        <!-- Store Menu Dropdown Panel -->
+        <div aria-hidden="true">
+            <div>
+                <span>DC</span>
+                <span>Davii Collections</span>
+                <img src="correct-icon.svg" aria-hidden="true" />
+            </div>
+            <!-- Menu Items -->
+            <ul>
+                <li><strong>All stores</strong></li>
+                <hr>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Changelog</a></li>
+                <li><a href="#">Community forums</a></li>
+                <li><a href="#">Hire a Shopify Partner</a></li>
+                <li><a href="#">Keyboard shortcuts</a></li>
+                <hr>
+                <li><a href="#">David Micheal</a></li>
+                <li><a href="#">Manage account</a></li>
+                <li><a href="#">Log out</a></li>
+            </ul>
+        </div>
+    </button>"
+
+    instead of just the name of the store it shows the name & the initials  encasulated in a dark theme container that appears on the same row. the initials is at the far end & its background is green with a dark text color. the name has a white text color. on mobile only the green background initials show. on desktop the name & the initials both show.
+
+    A similar component is the first item in the dropdown store menu panel. but in this, the container is slightly grayish, the green background initials come first and the name which has a dark text color comes next and it also have a correct/mark icon at the end of the container. following this item is the "All stores" and then the underline & then "Help Center", "Changelog"....
+
+    According to the figma file this is what i see in terms of improving accessiblity for the keyboard users and more importantly for screen readers, is there an improvement to add to this "    <div>
+            <span>Davii Collections</span>
+            <span>DC</span>
+        </div>" and to this "
+            <div>
+                <span>DC</span>
+                <span>Davii Collections</span>
+                <img src="correct-icon.svg" aria-hidden="true" />
+            </div>" what do you think
+
+
+
+    <div role="menu" aria-hidden="true">
+        <div role="group" aria-label="General">
+            <a href="#" role="menuitem>
+              <span>DC</span>
+              <span>Davii Collections</span>
+              <img src="correct-icon.svg" aria-hidden="true" />
+            </a>
+            <a href="#" role="menuitem>All stores</a>
+        </div>
+        <div role="separator"></div> <!-- Separator after the first group -->
+        <div role="group" aria-label="Help and Community">
+            <a href="#" role="menuitem">Help Center</a>
+            <a href="#" role="menuitem">Changelog</a>
+            <a href="#" role="menuitem">Community forums</a>
+            <a href="#" role="menuitem">Hire a Shopify Partner</a>
+            <a href="#" role="menuitem">Keyboard shortcuts</a>
+        </div>
+        <div role="separator"></div> <!-- Separator after the second group -->
+        <div role="group" aria-label="User Actions">
+            <a href="#" role="menuitem">David Micheal</a>
+            <a href="#" role="menuitem">Manage account</a>
+            <a href="#" role="menuitem">Log out</a>
+        </div>
+    </div>
+
+
+
+THE SETUP GUIDE COMPONENT
+
+intially this component contains just 4 items
+an heading text "Setup Guide", a descriptive text "Use this personalized guide to get your store up and running.", a feedback "1 / 5 completed" and progress bar beside it and lastly an arrow button rotated to point downward which is positioned at the top right of the container.
+
+when the arrow is clicked, the arrow changes direction to point upward, and the setup guide expands, now showing 5 items, 5 similar component which i will call the step-check component.
+initialy each step-check component has two things a custom check box implement with an image and a text beside it that titles the step e.g "Customize your online store". 
+when the step-check component is clicked it expands to show its other items. below the step title "Customize your online store" is a descripton of the step e.g "Choose a theme and add your logo, colors, and images to reflect your brand. Learn more". below that is a button e.g "Customize theme" and beside them is an image which displays only on desktop view.
+
+now when a step-check component has been clicked and has expanded all others become collapsed. when the check box is clicked, the checked step-check component collapse and the next unchecked step-check component expands.
+
+this is the developer storyline of the component now lest look into the html structure that caters for mouse users, keyboard users, screen reader users.
+
+this are the 5 step-check component
+1)
+  custom check box
+  "Custom
+
+
+<div aria-expanded="false">
+    <!-- Setup Guide Initial -->
+    <div>
+        <h2>Setup Guide</h2>
+        <p>Use this personalized guide to get your store up and running.</p>
+        <div>
+            <p>1 / 5 completed</p>
+            <progress/>
+        </div>
+        <button id="expandButton" aria-expanded="false" aria-controls="stepCheck1" aria-label="Expand Setup Guide">
+            <svg ...>
+        </button>
+    </div>
+
+    <!-- Setup Guide Steps -->
+    <div id="stepCheck1" aria-expanded="false">
+
+        <!-- Step 1 -->
+        <div>
+            <!-- check boxes Images  -->
+            <div><svg /><svg /></div>
+            <!-- step 1 content -->
+            <div>
+                <h3>Customize your online store</h3>
+                <p>Choose a theme and add your logo, colors, and images to reflect your brand. Learn more.</p>
+                <button aria-label="Customize theme">Customize theme</button>
+                <img src="desktop-image.jpg" alt="Customize theme desktop preview" class="desktop-image">
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div>
+            <!-- check boxes Images  -->
+            <div><svg /><svg /></div>
+            <!-- step 2 content -->
+            <div>
+                <h3>Add your first product</h3>
+                <p>Write a description, add photos, and set pricing for the products you plan to sell. Learn more</p>
+                <button aria-label="Customize theme">Add Product</button>
+                <img src="desktop-image.jpg" alt="Customize theme desktop preview" class="desktop-image">
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+
+        <!-- Step 4 -->
+    </div>
+
+</div>
+
+
+
+
+
+whay dont we start with this. i came up with the layout after looking at the figma design. i will explain why i choose this different from what you suggested. After that we can work extensively on making it 100% accessible for keyboard users, screen users & mouse users. this is the layout "<div aria-expanded="false">
+    <!-- Setup Guide Initial -->
+    <div>
+        <h2>Setup Guide</h2>
+        <p>Use this personalized guide to get your store up and running.</p>
+        <div>
+            <p>1 / 5 completed</p>
+            <progress/>
+        </div>
+        <button id="expandButton" aria-expanded="false" aria-controls="stepCheck1" aria-label="Expand Setup Guide">
+            <svg ...>
+        </button>
+    </div>
+
+    <!-- Setup Guide Steps -->
+    <div id="stepCheck1" aria-expanded="false">
+
+        <!-- Step 1 -->
+        <div>
+            <!-- check boxes Images  -->
+            <div><svg /><svg /></div>
+            <!-- step 1 content -->
+            <div>
+                <h3>Customize your online store</h3>
+                <p>Choose a theme and add your logo, colors, and images to reflect your brand. Learn more.</p>
+                <button aria-label="Customize theme">Customize theme</button>
+                <img src="desktop-image.jpg" alt="Customize theme desktop preview" class="desktop-image">
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div>
+            <!-- check boxes Images  -->
+            <div><svg /><svg /></div>
+            <!-- step 2 content -->
+            <div>
+                <h3>Add your first product</h3>
+                <p>Write a description, add photos, and set pricing for the products you plan to sell. Learn more</p>
+                <button aria-label="Customize theme">Add Product</button>
+                <img src="desktop-image.jpg" alt="Customize theme desktop preview" class="desktop-image">
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+
+        <!-- Step 4 -->
+    </div>
+
+</div>"
+
+1) for the initial aspect of the setup guide, that is the aspect the is not hidden that is visible i encapsulated them in a div to like group them together we would later talk about the best semantic element to use and other aria-attributes to add and talk about how keyboard users navigate & how screen readers navigate this section.
+
+2) secondly i did not use a label & a typical checkbox inpt and i know this is very important for accesibility but the checking functionality according to the figma file animation is much more customised. originally it shows an image then on hover it shows another image, when it is clicked it shows another like loading image, then it shows another like checked image. you see is very customizable. all the images are svg & i placed them in a div. we will talk on best practices to make this section cater for all forms of user. discussing how it would keyboard users, screen users will interact with it. the common practices in terms of accesibility
+
+3) third i encapsulated the content of the step in another div. because according to the figma file the content are beside the checkbox
+
+4) then there is the functionality that each step container is actually a collapsible container. initially only the check box and the step title shows. when it is clicked then the step description and step button & image becomes visible also whtn a step container is clicked all other container move to a collapsed state. not only that when a step is checked the next unchecked step expands which the previous collapse. we will talk about how best to implement the layout in terms of screen readeer accesibility, what attribute to use according to common practices
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+    <h2>Setup Guide</h2>
+    <p>Use this personalized guide to get your store up and running.</p>
+    <div aria-live="polite" aria-atomic="true">
+        <p aria-hidden="true">1 / 5 completed</p>
+        <progress aria-label="Setup Guide Progress: 1 of 5" value="1" max="5"></progress>
+    </div>
+    <button id="expandButton" tabindex="0" aria-expanded="false" aria-controls="stepCheck1" aria-label="Expand Setup Guide">
+        <svg>...</svg>
+    </button>
+</header>
+
+
+<div aria-live="polite" aria-atomic="true">
+    <p aria-hidden="true">1 / 5 completed</p>
+    <progress aria-label="Setup Guide Progress: 1 of 5" value="1" max="5"></progress>
+</div>
+
+
+
+
+okay lets talk about the checking button component. it is freaking interesting. let me narrate the mouse user story.
+    - i see an icon (icon1) in the position of the check button.
+    - when i hover on it the icon dissapears and now i see a circular element whose border is grayish & whose background is whitish
+    - when i click on the element i see the background becomes slightly darkish swiftly
+    the all of a sudden another icon (icon2) takes it place that rotate very quicky once
+    and then another icon(icon3) takes it place which appears. this scales up while rotating coming froma a place of 0 opacity & 0 scale. it was really cool.
+    the when this icon is clicked i see it go & icon1 shows back.
+
+i think what i would do is
+in the heading of the accordion item in the button element for the check button component i have a label and a checkbox input which i would style to have a specified size a grayish border and a whites background. this would be visible to screen readers. then inside the label i would have icon1 which wold not be visible to screen readers, i would have icon2 which would not be visible to screen readers and icon3 which would not be visible to screen readers.i am thinking of giving all the icons the same size with the checkbox input and stacking them upon themselves
+
+to mouse-users and keyboard users, what they see is the the icon1. the checkbox input, icon2, icon3 all have zero opacity. when the label is hovered upon, icon1 gets an opacity of 0 and the checkbox gets an opacity of zero when it is clicked the whitish background changes to grayish (THIS IS SO COOL) and then the checkbox opacity is 0 whilst the icon2 opacity becomes 1 and it rotates 1turn and then it disapears whilst icon3 appears coming from a scale of 0, an opacity of 0 an rotating 1turn (THIS IS SO INTERESTING)
+when the icon3 is clicked again, it disappears and icon1 appears.
+
+What do you think
+
+
+
+
+body
+  - header (Header Component)
+  - main
+      - Article (The Trial Callout Component)
+      - Article (The Setup Guide Component)
+          - Header (the setup guide intially visible item)
+          - Main ( the setup guide collapsible item)
+              - div for step 1
+              - div for step 2
+              - div for step 3
+              - div for step 4
+              - div for step 5
+
+
+Within this structure:
+
+1. Header Component:
+
+   Contains the header of your application.
+
+2. Main Component:
+
+   Contains the primary content of your page.
+
+3. Trial Callout Component:
+
+   Located within the main component.
+   Represents a callout with information about extending the trial.
+   Includes a "Select Plan" link and a "Dismiss" button.
+
+4. Setup Guide Component:
+
+   Located within the main component.
+   Contains the setup guide, divided into two sections (header and main).
+   The header represents the initially visible item.
+   The main section contains collapsible elements for each step.
+
+5. Collapsible Steps:
+
+   Individual div elements for each step (e.g., step 1, step 2, etc.).
+   Each step contains relevant content such as checkboxes, descriptions, buttons, and images.
