@@ -1,0 +1,32 @@
+
+
+
+THE HEADER
+    - position setting is fixed position, 0 top, 0 left, 
+    - size settings is 100vw width, var(header-height) height (56px)
+    - display settings is flex display, center align-items, space-betwee justify content, 8px gap
+    - color settings is G300 bg
+    - box settings is 16px padding
+
+THE SEARCH BOX
+    - search-box
+    - position setting of search box to relative position
+
+    - search-box > input 
+    - size settings 100% width, 32px height, 480px max-width
+    - color settings G200 bg (303030), G100 text color (B5B5B5)
+    - box settings is 8px padding-block, 8px padding-inline-end, 34px padding-inline-start, 8px border-radius, border: 1px solid var(--stroke-s-200, #616161);
+    - font settings is fs-medium class, weight-medium 
+    - hover state settings to 1px solid var(--stroke-s-100, #E1E1E1) border
+    - active state & focus state settings to 2px solid var(--White, #FFF) border
+    - 
+
+    - search-box > svg
+    - fill property to G100 text color (B5B5B5)
+    - width property to 20px
+    - height property to 20px
+    - positions settings to absolute position, 8px left, 50% top, -50% translateY transform
+
+THE HEADER ACTIONS NOTIFICATION BUTTON
+
+    
