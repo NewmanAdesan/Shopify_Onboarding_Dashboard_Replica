@@ -29,4 +29,143 @@ THE SEARCH BOX
 
 THE HEADER ACTIONS NOTIFICATION BUTTON
 
+    TODO (2hours)
+        - the content layout of the notification button section
+        - the aria attribute of the notification button section as a button-controlled menu component
+        - the styling of the notification button section
+        - the logic of the notification button section
+            - toggle of the menu
+            - the focus on the first button in the menu
+            - the escape button ACTIONS
+            - the tab/arrow navigation
     
+
+    THE LAYOUT
+        - in the button is the bell svg
+        - in the notification menu (div element) is 4 item the noti-menu heading, the noti-menu description, the noti-menu status for screen readers only and the noti-menu list
+        - the noti-menu heading (header element) has 3 items the text 'Alerts' (span element), the Filter Notification button & the Tick Notification button. they encapsulate an svg icon
+        - the noti-menu description (p element) has the text 'Alerts about your store and account will show here'
+        - the sr-only noti-menu status (p element) has the text 'No Notification at the Moment'
+        - the noti-menu list is simply an unordered list that will be empty (ul element)
+
+    
+    THE ARIA ATTRIBUTE
+        - the button has an aria-label of 'Listen to Your Store Notifications'
+        - the button has an aria-expanded of false
+        - the button has an aria-haspopup of true
+        - the button has an aria-controls of the notification menu id (notification-menu-content)
+        - the button has an id of notification-menu-button
+
+        - the notification menu has a role of menu
+        - the notification menu has an id of 'notification-menu-content'
+        - then notification menu has an aria-label of 'Listen to Your Store Notifications'
+        - the notification menu has an aria-live of polite
+
+        - the Filter Notification button as an aria-label of "Filter Notification"
+        - the Tick Notification button as an aria-label of "Check Notification"
+
+        - all svg's have an aria-hidden of true
+
+    
+    THE STYLING
+        - the header actions div
+        - position settings to relative position
+
+        - the button
+        - size settings to 32px width, 32px height
+        - display settings to grid display, center place-content
+        - box settings to 8px border radius, var(--grey-grey-50, #656266) background: 
+
+        - the notification menu div
+        - position settings to absolute position, 56px top, 0px right, 4 z-index
+        - display settings to none display, column flex direction, flex-start align-items, 16px gap
+        - header actions div focus-within notification menu div with active to flex display
+        - size settings to 358px max-width, calc(100%-16px) width
+        - box settings to 14px border-radius, 1px solid var(--stroke-s-50, #DBDBDB) border, white background, 16px padding, 0px 4px 8px 0px rgba(0, 0, 0, 0.05); box-shadow.
+        - font settings to font-dark text color
+
+        - the notification header
+        - display settings to flex display, space-between justify-content, center align-items, stretch align-self, 16px gap
+
+        - the notification header span
+        - class settings to fs-large, weight-semiBold
+        - box settings to auto margin-right
+
+        - the notification menu description
+        - class settings fs-medium, weight-semiBold
+        - fonts settings to center text align
+        - box settings to var(--states-hover, #F1F1F1) background, 16px padding
+
+        - the notification menu status
+
+    
+    THE LOGIC 
+        TOGGLE THE MENU
+            - when the notification button is clicked the notification menu div appears.
+            - when the notification button is clicked again the notification menu div disappears.
+            - When any other part of the page is clicked the notification menu div disappears
+
+            - create the function called 'app' that is where all our code will be.
+            - call the function below
+            - in the app function write a comment "THE NOTIFICATION MENU LOGIC"
+            - get the DOMElement of '#notification-menu-button' & '#notification-menu-content' called 'notifyBtn' & 'notifyMenu'
+            - place a click event handler on 'notifyBtn'
+            - in the click event handler toggle the active class on the 'notifyMenu'
+            - in the click event handler, get the value of aria-expanded
+            - in the click event handler, if the aria-expanded is true, set it to false, else it is false set it to true
+
+        
+        CHILD FOCUS
+            - place an atrribute 'data-notification-menu-item' on the filter button & on the check button
+            - in the click event handler, get DOMElement List of '.notify-container [role="menuitem"]' called 'allNotifyMenuItem'
+            - in the if statement of aria-expanded true, set focus to the first item of 'allNotifyMenuItem'
+            - in the else statement of aria-expanded true, set focus to the 'notifyBtn'
+            
+            - refactor your code into the functions openMenu, toggleMenu, closeMenu
+
+
+        ESCAPTE BUTTON ACTION
+            - when the menu is opened, set a 'keydown event handler' called 'handleKeyPressOnMenu' on the 'notifyMenu'.
+            - in handleKeyPressOnMenu, if the key press is 'Escape' call the toggleMenu function
+            - in handleKeyPressOnMenu, if the key press is 'Home', place focus on 'allNotifyMenuItem' first item.
+            - in handleKeyPressOnMenu, if the key press is 'End', place focus on 'allNotifyMenuItem' last item.
+
+
+        KEYBOARD NAVIGATION
+            - when the menu is opened, set a 'keydown event handler' on the 'notifyBtn' called 'handleKeyPressOnMenuController'
+            - in handleKeyPressOnMenuController, set up a state to know if the menu is opened
+            - if menu is opened if key is ArrowDown or ArrowRight or Tab, prevent default set focus to the first item of it's menu else if key is 'ArrowLeft' or 'ArrowUp', place focus on the last item of its menu.
+
+            - when the menu is opened, set a 'keydown event handler' on each menu item in 'allNotifyMenuItem' called 'handleKeyDownOnMenuItem'
+            - if the key is 'ArrowDown' or 'ArrowRight' or 'Tab' prevent default
+            - if the menuItem is last item, place focus on the menu controller e.g 'notifyBtn'
+            - else place focus on the next menItem.
+            - if the key is 'ArrowLeft' of 'ArrowUp', if the menuItem is the first, place focus on the menu controller e.g 'notifyBtn'
+            - else place focus on the previousItem
+
+
+
+
+
+THE SR-ONLY CLASS
+
+THE HEADER ACTIONS STORE MENU BUTTON
+
+    TODO (2hours)
+        - the content layout of the store menu section
+        - the aria attribute of the store menu section
+        - the styling of the store menu section
+        - the logic of the store menu section
+            - toggle of the menu
+            - the focus on the first button in the menu
+            - the escape button ACTIONS
+            - the tab/arrow navigation
+
+    
+    THE LAYOUT
+        - 
+
+
+MAYBE ARROW, HOME, END KEYBOARD NAVIAGTION through    
+
+THE SR-ONLY CLASS
