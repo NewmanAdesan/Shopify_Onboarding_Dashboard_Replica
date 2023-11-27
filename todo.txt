@@ -266,7 +266,7 @@ THE HEADER ACTIONS STORE MENU BUTTON
 
 
 
-        
+
 
 
 THE TRIAL CALLOUT COMPONENT
@@ -291,7 +291,7 @@ THE TRIAL CALLOUT COMPONENT
 
             - the trial extension p element
             - size settings calc(100% - 38px) width, max-content max-width
-            - color settings to font-mid text color
+            - color settings to font-light text color
 
             - the trial extension first button (btn-2)
             - box-settings to var(white) bg color, font-dark text color, 6px 12px padding, 6px border-radius, 1px solid rgba(0, 0, 0, 0.10) border, 0px -1px 0px 0px #B5B5B5 inset box-shadow
@@ -312,7 +312,6 @@ THE TRIAL CALLOUT COMPONENT
 
             - the trial extension element second button
             - all unset, 6px padding 6px border radius
-  
 
 
         THE LOGIC
@@ -320,6 +319,20 @@ THE TRIAL CALLOUT COMPONENT
             - place a click event handler on the dismiss button which set the trial callout display to none.
 
 
+
+
+
+
+
+THE SETUP GUIDE COMPONENT
+        THE LAYOUT
+            - the setup guide component has 2 section ELEMENT
+            - the first section elment has 4 items: the heading text(h1), the description text(p), the feedback element(span&progress), the drop-down Button
+            - the feedback element(div) has 2 items: the progress description(span) & the progress element(progress)
+            - the drop down button has an svg
+            - the second section element has 5 button element.
+            - for now each button has 2 items a checkbutton(button) & a text(h2)
+            - the checkbutton encapsulates an svg image
     
 
 
@@ -329,3 +342,11 @@ THE TRIAL CALLOUT COMPONENT
 ARROW, HOME, END KEYBOARD NAVIAGTION through    
 
 THE SR-ONLY CLASS
+
+NICE LOOKING SCROLL
+
+MOBILE BUG OF STORE BUTTON IMPLEMENTATION (HOVER ISSUE)
+
+FIX BUG ON STORE MENU BUTTON SOMETIMES FOCUS DOES NOT REACE THE FIRST ELEMENT. MAY BE THE CHANGE YOU MADE DO YOU REMEMBER THAT CHANGE
+
+PLACE THE HIDE ANIMATION OF HEADER MENU REVEAL
