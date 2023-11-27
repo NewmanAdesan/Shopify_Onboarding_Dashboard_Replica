@@ -265,11 +265,60 @@ THE HEADER ACTIONS STORE MENU BUTTON
         - place a click event handler on storeBtn which basically toggle its menu via the functionality toggleMenu(storeBtn, storeMenu, notificationMenu)
 
 
+
+        
+
+
 THE TRIAL CALLOUT COMPONENT
         - the trial component has 3 items: the description(p element), the select plan button & the dismiss button
 
 
         THE STYLING
+            - the main element
+            - size settings to 100% width, calc(100% - var(header-height)) min-height
+            - box settings to header-height padding-block-start
+            - class settings to fs-medium, weight-medium
+
+            - the main element divs
+            - size settings to 100% width
+            - box settings to auto margin-left, auto margin-right
+
+            - the trial extension element
+            - display settings to flex display, column flex-direction, flex-start align-items, flex-start justify-content, 16px gap
+            - size settings to 800px maximum width
+            - color settings to G300 bg color, font-light text color
+            - box settings to 12px 8px 12px 16px padding
+
+            - the trial extension p element
+            - size settings calc(100% - 38px) width, max-content max-width
+            - color settings to font-mid text color
+
+            - the trial extension first button (btn-2)
+            - box-settings to var(white) bg color, font-dark text color, 6px 12px padding, 6px border-radius, 1px solid rgba(0, 0, 0, 0.10) border, 0px -1px 0px 0px #B5B5B5 inset box-shadow
+            - hover background to #F7F7F7; box-shadow to 0px -1px 0px 0px #B5B5B5 inset;
+            - pressed state background to #F7F7F7;box-shadow to 0px 2px 1.5px 0px #E2E2E2 inset;
+            - focus state background to var(--White, #FFF); box-shadow to 0px 0px 0px 3px #005BD3, 0px 0px 0px 1px #FFF, 0px -1px 0px 0px #B5B5B5 inset;
+
+            - the trial extension second button
+            - position settings to absolute position, 0px top, 0px right
+            - box settings to 8px padding, G300 bg-color, 10px border radius
+
+            - the trial extension element (desktop)
+            - display settings to row flex-direction, center align-items, 8px gap, space-between justify-content
+            - box settings to 12px 8px 12px 16px padding, 8px border-radius
+
+            - the trial extension element (p)
+            - margin right auto
+
+            - the trial extension element second button
+            - all unset, 6px padding 6px border radius
+  
+
+
+        THE LOGIC
+            - place an id on the dismiss button 'trial-extension-dismiss'
+            - place a click event handler on the dismiss button which set the trial callout display to none.
+
 
     
 
