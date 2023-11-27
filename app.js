@@ -83,6 +83,7 @@ function app(){
    * the notification menu should toggle
    */
   const notifyBtn = document.querySelector("#notification-menu-button");
+  const storeBtn = document.querySelector("#store-menu-button");
   const notifyMenu = document.querySelector("#notification-menu-content");
   const storeMenu = document.querySelector("#store-menu-content");
 
@@ -135,6 +136,7 @@ function app(){
 
   function openMenu(menuController, currentMenu, allMenuItem, otherMenu) {
     menuController.ariaExpanded = "true";
+    menuController.ariaLabel = menuController.ariaLabel.replace("Listen to Your", "Close");
     allMenuItem.item(0).focus();
     currentMenu.addEventListener("keydown", function(event){
       handleKeyPressOnMenu(event, menuController, currentMenu, otherMenu, allMenuItem);
@@ -152,6 +154,7 @@ function app(){
 
   function closeMenu(menuController) {
     menuController.ariaExpanded = "false";
+    menuController.ariaLabel = menuController.ariaLabel.replace("Close", "Listen to Your");
     menuController.focus();
   }
 
@@ -162,7 +165,7 @@ function app(){
 
     const isExpanded = menuController.attributes['aria-expanded'].value === "true";
     
-    const allMenuItem = currentMenu.querySelectorAll(".notify-container [role='menuitem']")
+    const allMenuItem = currentMenu.querySelectorAll("[role='menuitem']")
 
     if (isExpanded) closeMenu(menuController);
     else openMenu(menuController, currentMenu, allMenuItem, otherMenu);
@@ -172,6 +175,12 @@ function app(){
   notifyBtn.addEventListener('click', function(e){
     console.log("notify button was clicked")
     toggleMenu(notifyBtn, notifyMenu, storeMenu);
+  })
+
+
+  storeBtn.addEventListener('click', function(e){
+    console.log("store button was clicked")
+    toggleMenu(storeBtn, storeMenu, notifyMenu);
   })
 
 

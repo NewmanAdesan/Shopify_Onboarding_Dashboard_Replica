@@ -13,7 +13,7 @@
 
     --font-light: #E3E3E3;
     --font-mid: #616161;
-    --font-dark: #475467;
+    --font-dark: #303030;
 
     --S50: #DBDBDB;
     --S100: #E1E1E1;
@@ -25,6 +25,8 @@
 
     --white: #ffffff;
     --background: #f1f1f1;
+
+    --green: #36FBA1;
 
 
     /**
@@ -154,8 +156,37 @@ body {
 }
 
 .weight-regular { font-weight: var(--weight-regular);}
+
 .weight-medium { font-weight: var(--weight-medium);}
+
 .weight-semiBold { font-weight: var(--weight-semiBold);}
+
+.font-light { color: var(--font-light) }
+
+.font-dark { color: var(--font-dark, #303030) }
+
+.font-mid { color: var(--font-mid) }
+
+
+
+
+
+/*-----------------------------------*\
+  #REUSABLE
+\*-----------------------------------*/
+
+.btn { background-color: var(--G200, #303030) }
+
+.btn:hover { background-color: var(--font-mid, #616161); }
+
+.btn:active {background: var(--G50, #656266);}
+
+.btn:is(:focus, :focus-visible) {
+  border: none;
+  outline: 2px solid var(--focused-state);
+  outline-offset: 1px;
+  background: var(--G50, #656266);
+}
 
 
 
@@ -181,7 +212,13 @@ body {
 
 .desktop-logo { display: none; }
 
-.search-box { position: relative }
+.search-box { 
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  flex: 1 1 0;
+
+}
 
 .search-box > input {
     width: 100%;
@@ -207,7 +244,11 @@ body {
     transform: translateY(-50%);
 }
 
-.header-actions { position: relative; }
+.header-actions { 
+  position: relative; 
+  display: flex;
+  gap: 8px;
+}
 
 .notify-btn {
   width: 32px;
@@ -215,18 +256,6 @@ body {
   display: grid;
   place-content: center;
   border-radius: var(--radius-8);
-  background-color: var(--G200, #303030);
-}
-
-.notify-btn:hover { background-color: var(--font-mid, #616161); }
-
-.notify-btn:active {background: var(--G50, #656266);}
-
-.notify-btn:is(:focus, :focus-visible) {
-  border: none;
-  outline: 2px solid var(--focused-state);
-  outline-offset: 1px;
-  background: var(--G50, #656266);
 }
 
 .drop-menu {
@@ -244,7 +273,7 @@ body {
   gap: 16px;
 
   max-width: 358px;
-  width: calc(100vw - 16px);
+  width: calc(100vw - 32px);
 
   border-radius: var(--radius-14);
   border: 1px solid var(--S50, #DBDBDB);
@@ -276,6 +305,118 @@ body {
   text-align: center;
 }
 
+.store-btn {
+  height: 32px;
+
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+
+  border-radius: var(--radius-8);
+  /* padding-inline-start: 8px; */
+  background-color: transparent;
+}
+
+.store-name { display:none; }
+
+.store-initial {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-content: center;
+  color:rgba(0, 0, 0, 0.40);
+  background-color: var(--green);
+  border-radius: 6px;
+}
+
+.store-menu {
+  max-width: 320px;
+  width: calc(100vw - 32px);
+  border-radius: var(--radius-14);
+  padding-block: 6px;
+  background-color: var(--white);
+}
+
+.store-menu.drop {
+  display: block;
+  opacity: 1;
+}
+
+.store-menu > div {
+  padding-inline: 6px;
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.store-menu > div:not(:last-child) {
+  border-block-end: 0.75px solid var(--S100, #E1E1E1);
+  padding-block-end: 1.625px;
+}
+
+.store-menu > div:not(:first-child) { padding-block-start: 1.625px; }
+
+.store-menu a { width: 100% }
+
+.store-name-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 8px;
+  border-radius: 8px;
+  background-color: var(--hover-state, #f1f1f1);
+}
+
+.store-name-link .store-initial {
+  border-radius: 5.25px;
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140px;
+  text-align: center
+}
+
+.store-name-link .name {
+  margin-right: auto;
+}
+
+.store-menu-link {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  padding: 6px;
+  border-radius: var(--radius-8);
+  background-color: transparent;
+  color: var(--font-dark);
+  font-weight: var(--weight-regular);
+  font-size:  var(--fs-13);
+  line-height: 140%;
+  letter-spacing: 0%;
+}
+
+.store-menu-link:hover { background: var(--hover-state, #F1F1F1); }
+
+.store-menu-link:active { background: var(--pressed-state, #F0F0F0); }
+
+.store-menu-link:focus-visible { 
+  background-color: transparent;
+  border: 2px solid var(--focused-state, #005BD3);
+}
+
+
+
+
+
+
+@media screen and (min-width: 764px) {
+  .store-name { display: block; }
+  .store-btn {
+    padding-inline-start: 8px;
+    background-color: var(--G200, #303030);
+  }
+}
 
 
 
@@ -287,5 +428,9 @@ body {
 
     .search-box > input {
       transition: border var(--transition-short);
+    }
+
+    .btn {
+      transition: var(--transition-short) ease-in;
     }
 }

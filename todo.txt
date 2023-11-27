@@ -163,9 +163,120 @@ THE HEADER ACTIONS STORE MENU BUTTON
 
     
     THE LAYOUT
-        - 
+        - the button has two items the store-name(span), the store-initials(span)
+        - the store menu(div element) has 3 div element.
+        - the first div element has two links 
+            - the first link has three items the store-initials(span), the store-name(span), the tick-icon(svg)
+            - the second link has two items the house-icon(svg), the 'All stores' text(span)
+        - the second div element has 5 links
+            - link 1 has text 'Help Center'
+            - link 2 has text 'Changelog'
+            - link 3 has text 'Community forums'
+            - link 4 has text 'Hire a Shopify Partner'
+            - link 5 has text 'Keyboard shortcuts'
+        - the Third div element has 3 links
+            - link 1 has 2 span element 'David Micheal' & 'davidmicheal@gmail.com'
+            - link 2 has text 'Manage account'
+            - link 3 has text 'Log out'
+
+    
+    THE ARIA ATTRIBUTE
+        - the button has an aria-label of 'Listen to Your Store Menu'
+        - the button has an aria-expanded of false
+        - the button has an aria-haspopup of true
+        - the button has an aria-controls of the store menu id (store-menu-content)
+        - the button has an id of store-menu-button
+
+        - the store menu has a role of menu
+        - the store menu has an id of 'store-menu-content'
+        - the store-menu-content menu has an aria-label of 'Listen to Your Store Menu'
+
+        - all links have the role=menuitem
+
+        - all svg's have an aria-hidden of true
+
+    
+    THE STYLING
+        - the button (store-btn, btn)
+        - size settings 32px height
+        - display settings flex display, 8px gap, center align items, space-between justify-content
+        - box settings to 8px border radius, 8px padding-inline-start
+        - btn class takes care of the background default/hover/pressed/focused & transition of transition short
+
+        - the first span (.store-name)
+        - class settings is fs-small, weight-medium
+        - text color is font-light variable
+        - display settings is none display & block display at media querry 764px
+
+        - the second span (.store-initials)
+        - size settings to 28px height, 28px width
+        - display settings to grid display, center place-content
+        - class settings to fs-small, weight-medium
+        - text color is rgba(0, 0, 0, 0.40);
+        - background-color is var(green)
+        - box settings to 6px border-radius
+
+        - the store menu (.store-menu)
+        - position settings taking care of by the menu class
+        - size settings to 320 max-width, calc(100vw - 32px) width
+        - display settings by .store-menu.drop to block display, 1 opacity
+        - box settings to 14px border-radius, 6px padding-block
+
+        - the store menu div children
+        - box-settings to padding-inline of 6px
+        - display settings of flex display, 4px gap, column flex-direction, flex-start align-items; 
+        - the first & second child have a border-bottom of 0.75px solid S100, E1E1E1 & a 1.625px padding-block-end 
+        - second and third child have a 1.625px padding-block-start
+
+        - the store menu div 1 link 1 (.store-name-link)
+        - display settings of flex display, center align-items, 8px gap
+        - box settings of 4px 12px 4px 8px padding, 8px border-radius, var(--states-hover), F1F1F1 background color
+
+        - the store menu div 1 link 1 span 1 (.store-initials)
+        - size settings of 28px width, 28px height
+        - display settings to grid display, center place-content
+        - box settings to {{{5.25px border-radius}}}, green background
+        - {{{font settings to 10.5px font-size, normal font-style, 500 font-weight, 140% line-height, both leading-trim, center text-align}}}, rgba(0, 0, 0, 0.40) text color
+
+        - the store menu div 1 link 1 span 2
+        - class settings to fs-medium, weight-semiBold
+        - color setting to font-dark (#303030) text-color
+
+        - the store menu other links (.store-menu-links)
+        - display settings of flex display, 8px gap, flex-start justify-content
+        - box settings of 6px padding, 8px border-radius
+        - default state transparent background
+        - hover state background: var(--states-hover, #F1F1F1);
+        - pressed state background: var(--states-pressed, #F0F0F0);
+        - focus state border: 2px solid var(--states-focused, #005BD3);
+
+        - link 2 - link 7, link 9 & link 10 span elemnt
+        - class settings to fs-medium, weight-regular, font-dark
+
+        - link 8
+        - 8px padding
+        - link 8 span 1 class settings to fs-medium, weight-medium, font-dark
+        - link 8 span 2 class settings to fs-small, weight-regular, font-G100/font-mid-2(#616161)
 
 
-MAYBE ARROW, HOME, END KEYBOARD NAVIAGTION through    
+    
+    THE LOGIC
+        - get the DOMElement of the element with id 'store-menu-button' called storeBtn
+        - place a click event handler on storeBtn which basically toggle its menu via the functionality toggleMenu(storeBtn, storeMenu, notificationMenu)
+
+
+THE TRIAL CALLOUT COMPONENT
+        - the trial component has 3 items: the description(p element), the select plan button & the dismiss button
+
+
+        THE STYLING
+
+    
+
+
+    
+
+
+ARROW, HOME, END KEYBOARD NAVIAGTION through    
 
 THE SR-ONLY CLASS
