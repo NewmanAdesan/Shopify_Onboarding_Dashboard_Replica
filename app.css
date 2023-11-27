@@ -211,6 +211,11 @@ body {
   box-shadow:  0px 0px 0px 3px #005BD3, 0px 0px 0px 1px #FFF, inset 0px -1px 0px 0px #B5B5B5;
 }
 
+.hide {
+  opacity: 0;
+  visibility: visible;
+  display: none;  
+}
 
 
 
