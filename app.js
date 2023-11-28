@@ -123,7 +123,6 @@ function app(){
    */
   const dismissBtn = document.querySelector("#trial-extension-dismiss");
   const trialExtend = document.querySelector("#trial-extend-article");
-  console.log(dismissBtn, trialExtend)
   dismissBtn.addEventListener('click', (e)=>{
     trialExtend.classList.add("hide");
   })
@@ -135,7 +134,116 @@ function app(){
   /***************************************************
    * THE SHOW SETUP STEPS LOGIC
    ***************************************************/
+  const showSetupStepsBtn = document.querySelector("#show-setup-steps");
+  const setupGuide = document.querySelector("#setup-guide-elem")
+  const setupSteps = document.querySelector("#setupSteps")
+  showSetupStepsBtn.addEventListener('click', (e)=>{
+      const isExpanded = setupGuide.attributes['aria-expanded'].value === "true";
+      if (!isExpanded){
+        setupGuide.ariaExpanded = "true";
+        showSetupStepsBtn.ariaExpanded = "true";
+        setupSteps.ariaExpanded = "true";
+        setupGuide.classList.remove("hide-height");
+        setupGuide.classList.add("drop-height");
+      }
+      else {
+        setupGuide.ariaExpanded = "false";
+        showSetupStepsBtn.ariaExpanded = "false";
+        setupSteps.ariaExpanded = "false";
+        setupGuide.classList.remove("drop-height");
+        setupGuide.classList.add("hide-height");
+        
+      }
+  })
+  
 
+
+
+
+  /***************************************************
+   * THE PAGE CHILDREN KEYBOARD NAVIGATION LOGIC
+   ***************************************************/
+  const shopifyLogo = document.querySelector("#shopifyLogo");
+  showSetupStepsBtn.addEventListener('keydown', (e)=>{
+    const isExpanded = setupGuide.attributes['aria-expanded'].value === "true";
+    if (!isExpanded && e.key === "Tab"){
+      shopifyLogo.focus();
+    }
+  })
+  
+
+
+
+
+  /***************************************************
+   * THE STEP SELECTION LOGIC
+   ***************************************************/
+  const allSetupSteps = document.querySelectorAll(".sg-step");
+  allSetupSteps.forEach((setupStep)=>{
+    setupStep.addEventListener('click', (e)=>{
+      allSetupSteps.forEach((_setupStep)=>{
+        _setupStep.ariaSelected = "false";
+      })
+      setupStep.ariaSelected = "true";
+
+    })
+  })
+  
+
+
+
+
+  /***************************************************
+   * THE STEP CHECK LOGIC
+   ***************************************************/
+  const allSgCheckBtn = document.querySelectorAll(".sg-step-check");
+  const allInitialIcon = document.querySelectorAll(".initial-check");
+  const allSpinnerIcon = document.querySelectorAll(".spinner-check");
+  const allMarkIcon = document.querySelectorAll(".mark-check");
+
+  const progressLabel = document.querySelector("#progress-label");
+  const progressSpan = document.querySelector("#progress-span");
+  const progressInner = document.querySelector("#progress-inner");
+
+  allSgCheckBtn.forEach((sgCheckBtn, sgCheckBtnIndex)=>{
+    sgCheckBtn.addEventListener('click', (e)=>{
+      const initialIcon = allInitialIcon.item(sgCheckBtnIndex);
+      const spinnerIcon = allSpinnerIcon.item(sgCheckBtnIndex);
+      const markIcon = allMarkIcon.item(sgCheckBtnIndex);
+      const hiddenInitialIcon = initialIcon.classList.contains("hidden");
+      if (!hiddenInitialIcon) {
+        // hide initial icon
+        initialIcon.classList.add("hidden");
+
+        // show spinner icon
+        spinnerIcon.classList.remove("hidden")
+
+        // setTimeout 2 seconds hide spinner icon & show mark icon
+        setTimeout(()=>{
+          spinnerIcon.classList.add("hidden");
+          markIcon.classList.remove("hidden");
+          progressLabel.ariaLabel = `Setup Guide Progress: ${Number(progressLabel.attributes['data-current'].value)+1} completed out of 5`;
+          progressSpan.textContent = `${Number(progressLabel.attributes['data-current'].value)+1}/5 completed`;
+          progressInner.attributes['width'].value = Number(progressInner.attributes['width'].value) + 14.4;
+          progressLabel.attributes['data-current'].value = Number(progressLabel.attributes['data-current'].value)+1
+        }, 1000)
+      }
+
+      else {
+        markIcon.classList.add("hidden");
+        initialIcon.classList.remove("hidden");
+        progressLabel.ariaLabel = `Setup Guide Progress: ${Number(progressLabel.attributes['data-current'].value)-1} completed out of 5`;
+        progressSpan.textContent = `${Number(progressLabel.attributes['data-current'].value)-1}/5 completed`;
+        progressInner.attributes['width'].value = Number(progressInner.attributes['width'].value) - 14.4;
+        progressLabel.attributes['data-current'].value = Number(progressLabel.attributes['data-current'].value)-1
+      }
+    });
+  })
+
+  // place a click event on all the check button
+  // when the check button is click, check if its initial icon is displayed (no hidden)
+  // if initial icon is displayed, make it hidden & make the spinner display & after 1 seconds make the mark display setting the spinner to hidden, update the progress element
+  // if the initial icon is not display, make the mark icon disappear & make the initial icon appear
 
 }
 

@@ -327,7 +327,7 @@ THE TRIAL CALLOUT COMPONENT
 THE SETUP GUIDE COMPONENT
         THE LAYOUT
             - the setup guide component has 2 section ELEMENT
-            - the first section elment has 4 items: the heading text(h1), the description text(p), the feedback element(span&progress), the drop-down Button
+            - the first section elment has 4 items: the heading text(h1), the description text(p), the feedback element(div), the drop-down Button
             - the feedback element(div) has 2 items: the progress description(span) & the progress svg
             - the drop down button has an svg
             - the second section element has 5 button element.
@@ -336,9 +336,10 @@ THE SETUP GUIDE COMPONENT
 
         THE ARIA-ATTRIBUTES 
             - the setup guide component has the aria-expanded set to false
-            - the feedback element has the aria-live set to polite & aria-atomic set to true
+            - the feedback element has the aria-live set to polite
             - the feedback element p element has the aria-hidden set to true
-            - the feedback element progress element has the aria-label of 'Setup Guide Progress: 0 completed out of 5'
+            - the feedback element has the aria-label of 'Setup Guide Progress: 0 completed out of 5'
+            - the feedback element description(span) has the aria-hidden of true
             - the drop-down button has an aria-expanded of false, aria-controls of 'setupSteps', aria-label of 'Activate to Access to all Required Steps'
             - the second section element has an id of 'setupSteps', aria-expanded set to false, aria-label of 'All the Required Steps'
 
@@ -348,7 +349,7 @@ THE SETUP GUIDE COMPONENT
             - display setting to flex display, column flex-direction, 16px gap
             - box settings 16px margin-block-start, 8px padding, white background, border of 1px solid var(--stroke-s-50, #DBDBDB), box-shadow of 0px 1px 0px 0px rgba(0, 0, 0, 0.05);, auto margin-inline
 
-            - the first section element (visible-SG class)
+            - the first section element (sg-visible class)
             - position setting to relative position
             - size settings to 100% width
             - box settings of 8px padding
@@ -358,8 +359,9 @@ THE SETUP GUIDE COMPONENT
                 - class settings to fs-large, weight-semiBold
 
                 - the section element p
-                - size settings to calc(100% - 30px) width
+                - size settings to calc(100% - 30px) width, max-content max-width
                 - box settings to 16px margin-block-end
+                - class settings to weight-regular
 
                 - the feedback element
                 - display settings to flex display, 8px gap, flex-start justify-content, center align-items
@@ -368,21 +370,26 @@ THE SETUP GUIDE COMPONENT
                 - class settings to fs-small, weight regular
 
                 - the drop down button
-                - position settings to absolute position, 0px top, 0px right
+                - position settings to absolute position, 8px top, 8px right
                 - box settings to 6px border-radius, 4px padding
-                - class settings is the btn class that specifies interaction state changes
-                - if aria-expanded true is on this button set transform to rotate -180 degrees, for no-preference, add a long transition to the this button
+                - class settings is the state-change-1 class that specifies interaction state changes
+                - if aria-expanded true is on this button set transform of its svg to rotate -180 degrees, for no-preference, add a long transition to the this button
 
             - the second section element
             - opacity setting is set to 0
             - when aria-expanded of the setup guide component is true, opacity of the section is set to 1
-            - this transition 
     
             - the second section button element
             - size setting is 100% width
-            - class settings is the btn class that specifies interaction state changes
-            - display settings to flex display, center align-items, 8px gap, flex-start justify-content
+            - class settings is the state-change-1 class that specifies interaction state changes
+            - display settings to flex display, flex-start align-items, 8px gap, flex-start justify-content
             - box settings to 8px padding, 10px border-radius, transparent background-color
+
+            - the second section button element div element (sg-step-content)
+            - flex to 1 1 0
+
+            - the second section button element div element h2 element (title class)
+            - 
 
             - the setup guide component (setup-guide class) DESKTOP
             - box settings to 18px border radius
@@ -405,9 +412,9 @@ THE SETUP GUIDE COMPONENT
                     - drop-height class removed to the setup-guide element
                     - hide-height class added from the setup-guide element
 
-            - the drop-height class has a drop-height forwards keyframe 0% 125px height, hidden overflow-y  to 100% max-content height, visible overflow-y
-            - the hide-height class has a hide-height forwards keyframe 0% max-content height, visible overflow-y to hidden overflow-y 125px height
-            - for no preference drop-height simply sets the height & overflow-y, same goes with hide-height
+            - the drop-height class has a drop-height forwards keyframe 0% 125px height, to 100% max-content height
+            - the hide-height class has a hide-height forwards keyframe 0% max-content height, 100% 125px height
+            - for no preference drop-height simply sets the height , same goes with hide-height
 
 
     
@@ -427,3 +434,11 @@ MOBILE BUG OF STORE BUTTON IMPLEMENTATION (HOVER ISSUE)
 FIX BUG ON STORE MENU BUTTON SOMETIMES FOCUS DOES NOT REACE THE FIRST ELEMENT. MAY BE THE CHANGE YOU MADE DO YOU REMEMBER THAT CHANGE
 
 PLACE THE HIDE ANIMATION OF HEADER MENU REVEAL
+
+CLEAN UP THE TRANSITIONS
+
+CLEAN UP THE STATE-CHANGE CLASSES
+
+FIX STATE-CHANGE FOCUS GIVES A KIND A BLACK BORDER
+
+PERFECT BTN-3
