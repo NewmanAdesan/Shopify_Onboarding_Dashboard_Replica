@@ -662,13 +662,16 @@ body {
   display: none;
 }
 
-
-
 .hide-height { height: 125px; }
 .drop-height { height:max-content }
 
 .sg-step-check {
   border-radius: var(--radius-6);
+}
+
+.sg-step-content .sg-step-desc a { 
+  color: var(--focused-state);
+  font-weight: var(--weight-semiBold);
 }
 
 
@@ -699,6 +702,8 @@ body {
 .mark-check {
   animation: markCheck 200ms linear;
 }
+
+
 
 @keyframes spin {
   0% {
