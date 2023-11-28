@@ -132,9 +132,21 @@ body {
   min-height: 100vh;
 }
 
-:focus {
+/* :focus {
     outline: none;
     border: 0.125rem solid var(--focused-state)
+} */
+
+::-webkit-scrollbar {
+  width: 8px;   /* sets vertical scrollbar width */
+  height: 8px;  /* sets horizontal scrollbar width */
+}
+
+::-webkit-scrollbar-track {background-color: transparent;}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--G200);
+  border-radius: var(--radius-8);
 }
 
 
@@ -214,7 +226,9 @@ body {
 
 .btn-2:focus {
   background-color: white;
-  box-shadow:  0px 0px 0px 3px #005BD3, 0px 0px 0px 1px #FFF, inset 0px -1px 0px 0px #B5B5B5;
+  border: 1px solid #B5B5B5;
+  outline: 2px solid #005BD3;
+  outline-offset: 1px;
 }
 
 .btn-3 {
@@ -254,15 +268,30 @@ body {
   display: none;  
 }
 
-.state-change-1 { background-color: transparent; }
+.state-change-1 { 
+  outline: none;
+  background-color: transparent; 
+}
 
-.state-change-1:hover { background: var(--hover-state, #F1F1F1); }
+.state-change-1:hover { background-color: var(--hover-state, #F1F1F1); }
 
-.state-change-1:active { background: var(--pressed-state, #F0F0F0); }
+.state-change-1:active { background-color: var(--pressed-state, #F0F0F0); }
 
 .state-change-1:is(:focus, :focus-visible) { 
+  outline: none;
   background-color: transparent;
   border: 2px solid var(--focused-state, #005BD3);
+}
+
+[aria-live="polite"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 
@@ -286,6 +315,11 @@ body {
   gap: 8px;
   background-color: var(--G300);
   padding-inline: 16px; 
+}
+
+#shopifyLogo:focus {
+  outline: 2px solid var(--focused-state);
+  outline-offset: 1px;
 }
 
 .main {
@@ -322,6 +356,17 @@ body {
     padding-inline-start: 30px;
     border-radius: var(--radius-8);
     border: 1px solid var(--S200, #616161);
+    font-weight: var(--weight-medium);
+    font-size:  var(--fs-13);
+    line-height: 140%;
+    letter-spacing: 0%;
+}
+
+.search-box > input::placeholder {
+  font-weight: var(--weight-medium);
+  font-size:  var(--fs-13);
+  line-height: 140%;
+  letter-spacing: 0%;
 }
 
 .search-box > input:hover { border: 1px solid var(--S100, #E1E1E1) }
@@ -388,6 +433,16 @@ body {
   gap: 16px;
 }
 
+.notify-menu-btn {
+  border-radius: 4px;
+}
+
+.notify-menu-btn:focus {
+  outline: none;
+  background-color: transparent;
+  border: 1.5px solid var(--focused-state, #005BD3);
+}
+
 .notify-menu-header .title { margin-right: auto;}
 
 .notify-menu-description {
@@ -395,6 +450,7 @@ body {
   padding: 16px;
   text-align: center;
 }
+
 
 .store-btn {
   height: 32px;
@@ -492,6 +548,7 @@ body {
 .store-menu-link:active { background: var(--pressed-state, #F0F0F0); }
 
 .store-menu-link:is(:focus, :focus-visible) { 
+  outline: none;
   background-color: transparent;
   border: 2px solid var(--focused-state, #005BD3);
 }
@@ -568,6 +625,8 @@ body {
   margin-block-end: 4px;
 }
 
+.setup-guide::-webkit-scrollbar {display: none;}
+
 .sg-visible {
   position: relative;
   width: 100%;
@@ -576,7 +635,7 @@ body {
 }
 
 .sg-visible p {
-  width: calc(100% - 30px);
+  width: calc(100% - 36px);
   max-width: max-content;
   margin-block-end: 16px;
 }
@@ -594,14 +653,20 @@ body {
   right: 8px;
 
   border-radius: var(--radius-6);
-  padding: 4px;
+  padding: 2px;
 }
 
 .drop-setup-steps[aria-expanded="true"] svg {
   transform: rotate(-180deg);
 }
 
-.sg-invisible { opacity: 0; }
+.drop-setup-steps:hover { background-color: var(--hover-state); }
+
+.sg-invisible { 
+  opacity: 0;
+}
+
+.setup-guide::-webkit-scrollbar {display: none;}
 
 .setup-guide[aria-expanded="true"] .sg-invisible { opacity: 1; }
 
@@ -617,8 +682,8 @@ body {
   background-color: transparent;
 }
 
-.sg-step[aria-selected="true"],
-.sg-step[aria-selected="true"]:focus
+.sg-step[aria-expanded="true"],
+.sg-step[aria-expanded="true"]:focus
  { background-color: var(--hover-state);}
 
 .sg-step:hover { background-color: var(--hover-state, #F1F1F1); }
@@ -640,7 +705,7 @@ body {
   justify-content: flex-start;
 }
 
-.sg-step[aria-selected="true"] .title { font-weight: var(--weight-semiBold); }
+.sg-step[aria-expanded="true"] .title { font-weight: var(--weight-semiBold); }
 
 .sg-step-content .title { margin-block-start: 4px; }
 
@@ -658,7 +723,23 @@ body {
   transform: translateY(-50%);
 }
 
-.sg-step[aria-selected="false"] :is(.sg-step-desc, .btn-3, .sg-step-img){
+.sg-step-content-btns {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.sg-step-content-btn-2 {
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.sg-step-content-btn-2:hover { background-color:#E3E3E3; }
+
+
+
+.sg-step[aria-expanded="false"] :is(.sg-step-desc, .sg-step-content-btns, .btn-3, .sg-step-img){
   display: none;
 }
 
@@ -671,6 +752,8 @@ body {
 
 .sg-step-content .sg-step-desc a { 
   color: var(--focused-state);
+  /* border-block-end: 2px solid var(--focused-state); */
+  text-decoration-line:underline;
   font-weight: var(--weight-semiBold);
 }
 
@@ -728,6 +811,35 @@ body {
 
 
 
+@media screen and (max-width: 500px){
+  .store-btn:hover {background-color: transparent;}
+  .store-btn:focus {
+    border: none;
+    outline: none;
+    outline-offset: none;
+    background: none;
+  }
+  .store-initial:hover {background-color: hsl(153, 96%, 40%);}
+  .store-btn:focus .store-initial {
+    border: none;
+    outline: 2px solid var(--focused-state);
+    outline-offset: 1px;
+  }
+
+
+  /* .btn { background-color: var(--G200, #303030) }
+
+.btn:hover { background-color: var(--font-mid, #616161); }
+
+.btn:active {background: var(--G50, #656266);}
+
+.btn:is(:focus, :focus-visible) {
+  border: none;
+  outline: 2px solid var(--focused-state);
+  outline-offset: 1px;
+  background: var(--G50, #656266);
+} */
+}
 
 
 
@@ -750,14 +862,14 @@ body {
   .trial-extend > .desc { margin-inline-end: auto;  }
 
   .trial-extend > .dismiss {
-    all: unset;
+    position: static;
     padding: 6px;
     border-radius: var(--radius-6);
   }
 
   .setup-guide { border-radius: 18px; }
 
-  .sg-step[aria-selected="true"] .sg-step-img {
+  .sg-step[aria-expanded="true"] .sg-step-img {
     display: block;
   }
 }
@@ -804,7 +916,7 @@ body {
     }
 
     .sg-invisible{
-      transition: opacity var(--transition-short) ease-out;
+      transition: opacity var(--transition-long) ease;
     }
 
     .sg-step-check circle {
@@ -890,6 +1002,7 @@ body {
 
       100% {
         overflow-y: hidden;
+        /* display: hidden; */
       }
     }
 
@@ -904,6 +1017,8 @@ body {
 
       100% {
         overflow-y: visible;
+        /* display: block; */
+
       }
     }
 }

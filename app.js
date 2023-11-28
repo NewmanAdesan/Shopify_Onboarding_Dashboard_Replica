@@ -5,12 +5,15 @@ function app(){
 
   function handleKeyPressOnMenu(event, menuController, currentMenu, otherMenu, allMenuItem){
     if (event.key === "Escape") {
+      event.preventDefault();
       toggleMenu(menuController, currentMenu, otherMenu);
     }
     else if (event.key === "Home") {
+      event.preventDefault();
       allMenuItem.item(0).focus();
     }
     else if (event.key === "End") {
+      event.preventDefault();
       allMenuItem.item(allMenuItem.length - 1).focus()
     }
   }
@@ -19,23 +22,39 @@ function app(){
   function handleKeyDownOnMenuItem(event, menuItemIndex, allMenuItem, menuController){
     const isLastItem = menuItemIndex === allMenuItem.length - 1;
     const isFirstItem = menuItemIndex === 0;
+
     const nextItem = allMenuItem.item(menuItemIndex+1)
     const prevItem = allMenuItem.item(menuItemIndex-1)
+
+    const firstItem = allMenuItem.item(0);
+    const lastItem = allMenuItem.item(allMenuItem.length - 1);
+
     if (event.key === "ArrowDown" || event.key === "ArrowRight" || event.key === "Tab") {
       event.preventDefault();
-      if (isLastItem) menuController.focus();
-      else nextItem.focus();
+      if (isLastItem ) {
+        if (menuController) menuController.focus()
+        else firstItem.focus();
+      }
+      else {
+        nextItem.focus()
+      };
     }
     else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
       event.preventDefault();
-      if (isFirstItem) menuController.focus();
-      else prevItem.focus();
+      if (isFirstItem) {
+        if (menuController) menuController.focus()
+        else lastItem.focus();
+      }
+      else {
+        prevItem.focus()
+      };
     }
+
+    
   }
 
 
   function handleKeyPressOnMenuController(event, menuController, allMenuItem){
-    console.log(menuController.ariaExpanded === "true")
     if (menuController.ariaExpanded === "true"){
       if (event.key === "ArrowDown" || event.key === "ArrowRight" || event.key === "Tab") {
         event.preventDefault();
@@ -101,13 +120,11 @@ function app(){
 
 
   notifyBtn.addEventListener('click', function(e){
-    console.log("notify button was clicked")
     toggleMenu(notifyBtn, notifyMenu, storeMenu);
   })
 
 
   storeBtn.addEventListener('click', function(e){
-    console.log("store button was clicked")
     toggleMenu(storeBtn, storeMenu, notifyMenu);
   })
 
@@ -137,7 +154,9 @@ function app(){
   const showSetupStepsBtn = document.querySelector("#show-setup-steps");
   const setupGuide = document.querySelector("#setup-guide-elem")
   const setupSteps = document.querySelector("#setupSteps")
+  
   showSetupStepsBtn.addEventListener('click', (e)=>{
+
       const isExpanded = setupGuide.attributes['aria-expanded'].value === "true";
       if (!isExpanded){
         setupGuide.ariaExpanded = "true";
@@ -163,13 +182,42 @@ function app(){
   /***************************************************
    * THE PAGE CHILDREN KEYBOARD NAVIGATION LOGIC
    ***************************************************/
-  const shopifyLogo = document.querySelector("#shopifyLogo");
+  
+
+  const allPageItems = document.querySelectorAll(".js-page-item ");
+  const shopifyLogo = allPageItems.item(0);
   showSetupStepsBtn.addEventListener('keydown', (e)=>{
     const isExpanded = setupGuide.attributes['aria-expanded'].value === "true";
-    if (!isExpanded && e.key === "Tab"){
+    if (!isExpanded && (e.key === "Tab" || e.key === "ArrowDown" || e.key === "ArrowRight")){
       shopifyLogo.focus();
     }
   })
+
+  // allPageItems.forEach((pageItem, pageItemIndex)=>{
+  //   pageItem.addEventListener('keyup', (e)=>{
+  //     const isLastItem = pageItemIndex === allPageItems.length - 1;
+  //     const isFirstItem = pageItemIndex === 0;
+  
+  //     const nextItem = allPageItems.item(pageItemIndex+1)
+  //     const prevItem = allPageItems.item(pageItemIndex-1)
+  
+  //     const firstItem = allPageItems.item(0);
+  //     const lastItem = allPageItems.item(allPageItems.length - 1);
+
+  
+  //     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+  //       e.preventDefault();
+  //       if (isLastItem ) firstItem.focus();
+  //       else nextItem.focus();
+  //     }
+  //     else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+  //       e.preventDefault();
+  //       if (isFirstItem) lastItem.focus();
+  //       else prevItem.focus();
+  //     }
+
+  //   })
+  // })
   
 
 
@@ -179,13 +227,25 @@ function app(){
    * THE STEP SELECTION LOGIC
    ***************************************************/
   const allSetupSteps = document.querySelectorAll(".sg-step");
+
+  function handleExpansionLogicOfSetupSteps(){
+
+  }
   allSetupSteps.forEach((setupStep)=>{
     setupStep.addEventListener('click', (e)=>{
       allSetupSteps.forEach((_setupStep)=>{
-        _setupStep.ariaSelected = "false";
+        _setupStep.ariaExpanded = "false";
       })
-      setupStep.ariaSelected = "true";
-
+      setupStep.ariaExpanded = "true";
+    })
+    
+    setupStep.addEventListener('keydown', (e)=>{
+      if (e.key === 'Space' || e.key === 'Enter'){
+        allSetupSteps.forEach((_setupStep)=>{
+          _setupStep.ariaExpanded = "false";
+        })
+        setupStep.ariaExpanded = "true";
+      }
     })
   })
   
@@ -200,6 +260,7 @@ function app(){
   const allInitialIcon = document.querySelectorAll(".initial-check");
   const allSpinnerIcon = document.querySelectorAll(".spinner-check");
   const allMarkIcon = document.querySelectorAll(".mark-check");
+  const allSgStepStatus = document.querySelectorAll(".sg-step-status");
 
   const progressLabel = document.querySelector("#progress-label");
   const progressSpan = document.querySelector("#progress-span");
@@ -210,7 +271,11 @@ function app(){
       const initialIcon = allInitialIcon.item(sgCheckBtnIndex);
       const spinnerIcon = allSpinnerIcon.item(sgCheckBtnIndex);
       const markIcon = allMarkIcon.item(sgCheckBtnIndex);
+      const status = allSgStepStatus.item(sgCheckBtnIndex);
+      let initialStatus = status.ariaLabel;
+
       const hiddenInitialIcon = initialIcon.classList.contains("hidden");
+
       if (!hiddenInitialIcon) {
         // hide initial icon
         initialIcon.classList.add("hidden");
@@ -218,20 +283,57 @@ function app(){
         // show spinner icon
         spinnerIcon.classList.remove("hidden")
 
-        // setTimeout 2 seconds hide spinner icon & show mark icon
+        // change status
+        status.ariaLabel = "Loading. Please Wait."
+
+        // setTimeout 1 seconds hide spinner icon & show mark icon
         setTimeout(()=>{
           spinnerIcon.classList.add("hidden");
           markIcon.classList.remove("hidden");
+
+          status.ariaLabel = initialStatus.replace("not", "just");
+          status.ariaLabel = status.ariaLabel.replace("Uncompleted", "Completed");
+
+          sgCheckBtn.ariaLabel = sgCheckBtn.ariaLabel.replace("has", "has not");
+
           progressLabel.ariaLabel = `Setup Guide Progress: ${Number(progressLabel.attributes['data-current'].value)+1} completed out of 5`;
           progressSpan.textContent = `${Number(progressLabel.attributes['data-current'].value)+1}/5 completed`;
           progressInner.attributes['width'].value = Number(progressInner.attributes['width'].value) + 14.4;
           progressLabel.attributes['data-current'].value = Number(progressLabel.attributes['data-current'].value)+1
+
+          // set the aria-expanded to false
+          allSetupSteps.item(sgCheckBtnIndex).ariaExpanded = "false";
+
+          /* look for the next incomplete item in order and expand */
+          /**
+           * 
+           * initialization is i is sgCheckBtnIndex + 1
+           * condition is i % 5 !== sgCheckBtnIndex
+           * incrementation is i += 1
+           * check the for the stepStatus at item i.
+           * if its ariaLabel has Uncompleted in it.
+           * get the setupStep at that item & set its aria-expanded to true and break;
+           */
+          for(let i=0; i<5; i++){
+            let iStepStatus = allSgStepStatus.item(i);
+            if (iStepStatus.ariaLabel.includes("Uncompleted")){
+              allSetupSteps.item(i).ariaExpanded = "true";
+              allSgCheckBtn.item(i).focus();
+              break;
+            }
+          }
         }, 1000)
       }
 
       else {
         markIcon.classList.add("hidden");
         initialIcon.classList.remove("hidden");
+
+        status.ariaLabel = initialStatus.replace("just", "not");
+        status.ariaLabel = initialStatus.replace("Completed", "Uncompleted");
+
+        sgCheckBtn.ariaLabel = sgCheckBtn.ariaLabel.replace("has not", "has");
+
         progressLabel.ariaLabel = `Setup Guide Progress: ${Number(progressLabel.attributes['data-current'].value)-1} completed out of 5`;
         progressSpan.textContent = `${Number(progressLabel.attributes['data-current'].value)-1}/5 completed`;
         progressInner.attributes['width'].value = Number(progressInner.attributes['width'].value) - 14.4;
